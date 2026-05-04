@@ -12,5 +12,6 @@ function App() {
     </div>
   )
 }
+// QuickCart UI implementation
 
 export default App
