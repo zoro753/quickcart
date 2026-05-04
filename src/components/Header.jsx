@@ -1,16 +1,42 @@
-const Header = ({ cartItemCount, onCartClick }) => {
+import { NavLink } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
+import SearchBar from './SearchBar'
+
+const Header = ({
+  categories = [],
+  searchTerm = '',
+  onSearchChange = () => {},
+}) => {
+  const { totalItems, openCart } = useCart()
+
   return (
     <header className="qc-header">
       <div className="qc-header__actions">
         <button
           type="button"
           className="qc-cart-button"
-          onClick={onCartClick}
+          onClick={openCart}
           aria-label="Open cart"
         >
+          <svg
+            className="qc-cart-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M6 6h14l-1.5 8.5H7.5L6 6zm0 0L5 3H3"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <circle cx="9" cy="19" r="1.5" fill="currentColor" />
+            <circle cx="17" cy="19" r="1.5" fill="currentColor" />
+          </svg>
           <span className="qc-cart-button__label">Cart</span>
-          {cartItemCount > 0 && (
-            <span className="qc-cart-badge">{cartItemCount}</span>
+          {totalItems > 0 && (
+            <span className="qc-cart-badge">{totalItems}</span>
           )}
         </button>
       </div>
@@ -45,6 +71,45 @@ const Header = ({ cartItemCount, onCartClick }) => {
           </div>
         </div>
       </div>
+      <nav className="qc-nav" aria-label="QuickCart navigation">
+        <div className="qc-nav__links">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `qc-nav__link ${isActive ? 'is-active' : ''}`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              `qc-nav__link ${isActive ? 'is-active' : ''}`
+            }
+          >
+            Cart
+          </NavLink>
+        </div>
+        {categories.length > 0 && (
+          <>
+            <span className="qc-nav__label">Categories</span>
+            <div className="qc-nav__categories">
+              {categories.map((category) => (
+                <NavLink
+                  key={category}
+                  to={`/category/${encodeURIComponent(category)}`}
+                  className={({ isActive }) =>
+                    `qc-nav__link ${isActive ? 'is-active' : ''}`
+                  }
+                >
+                  {category}
+                </NavLink>
+              ))}
+            </div>
+          </>
+        )}
+      </nav>
+      <SearchBar value={searchTerm} onChange={onSearchChange} />
     </header>
   )
 }

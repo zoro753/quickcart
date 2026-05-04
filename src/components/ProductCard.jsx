@@ -1,9 +1,13 @@
+import { useCart } from '../context/CartContext'
+
 const priceFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
 })
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product }) => {
+  const { addToCart } = useCart()
+
   return (
     <article className="qc-card">
       <div className="qc-card__media">
@@ -20,7 +24,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           <button
             type="button"
             className="qc-button qc-button--small"
-            onClick={() => onAddToCart(product)}
+            onClick={() => addToCart(product)}
           >
             Add to cart
           </button>

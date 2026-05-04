@@ -1,32 +1,36 @@
+import { useCart } from '../context/CartContext'
+
 const priceFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
 })
 
-const CartSidebar = ({
-  isOpen,
-  cart,
-  itemCount,
-  totalPrice,
-  onClose,
-  onUpdateQuantity,
-  onRemoveItem,
-}) => {
+const CartSidebar = () => {
+  const {
+    cart,
+    isCartOpen,
+    totalItems,
+    totalPrice,
+    closeCart,
+    updateQuantity,
+    removeFromCart,
+  } = useCart()
+
   return (
-    <div className={`qc-cart ${isOpen ? 'is-open' : ''}`}>
+    <div className={`qc-cart ${isCartOpen ? 'is-open' : ''}`}>
       <button
         type="button"
         className="qc-cart__overlay"
         aria-label="Close cart"
-        onClick={onClose}
+        onClick={closeCart}
       />
-      <aside className="qc-cart__panel" aria-hidden={!isOpen}>
+      <aside className="qc-cart__panel" aria-hidden={!isCartOpen}>
         <div className="qc-cart__header">
           <div>
             <p className="qc-cart__title">Your cart</p>
-            <p className="qc-cart__count">{itemCount} items</p>
+            <p className="qc-cart__count">{totalItems} items</p>
           </div>
-          <button type="button" className="qc-cart__close" onClick={onClose}>
+          <button type="button" className="qc-cart__close" onClick={closeCart}>
             Close
           </button>
         </div>
@@ -51,14 +55,14 @@ const CartSidebar = ({
                   <div className="qc-cart__qty">
                     <button
                       type="button"
-                      onClick={() => onUpdateQuantity(item.id, -1)}
+                      onClick={() => updateQuantity(item.id, -1)}
                     >
                       -
                     </button>
                     <span>{item.quantity}</span>
                     <button
                       type="button"
-                      onClick={() => onUpdateQuantity(item.id, 1)}
+                      onClick={() => updateQuantity(item.id, 1)}
                     >
                       +
                     </button>
@@ -71,7 +75,7 @@ const CartSidebar = ({
                   <button
                     type="button"
                     className="qc-cart__remove"
-                    onClick={() => onRemoveItem(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                   >
                     Remove
                   </button>
