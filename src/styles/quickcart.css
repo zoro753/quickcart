@@ -34,6 +34,7 @@
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   gap: 32px;
   align-items: center;
+  position: relative;
 }
 
 .qc-eyebrow {
@@ -100,6 +101,46 @@
 
 .qc-button:hover {
   transform: translateY(-1px);
+}
+
+.qc-header__actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.qc-cart-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.qc-cart-button__label {
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 12px;
+}
+
+.qc-cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .qc-header__panel {
@@ -253,6 +294,188 @@
   font-weight: 700;
 }
 
+.qc-cart {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.qc-cart__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 24, 19, 0.35);
+  opacity: 0;
+  border: none;
+  padding: 0;
+  transition: opacity 0.3s ease;
+}
+
+.qc-cart__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 100%);
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.qc-cart.is-open {
+  pointer-events: auto;
+}
+
+.qc-cart.is-open .qc-cart__overlay {
+  opacity: 1;
+}
+
+.qc-cart.is-open .qc-cart__panel {
+  transform: translateX(0);
+}
+
+.qc-cart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.qc-cart__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+}
+
+.qc-cart__count {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.qc-cart__close {
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.qc-cart__empty {
+  margin: 40px 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.qc-cart__items {
+  display: grid;
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 6px;
+  flex: 1;
+}
+
+.qc-cart__item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.qc-cart__thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  background: var(--bg-strong);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.qc-cart__details {
+  display: grid;
+  gap: 6px;
+}
+
+.qc-cart__name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.qc-cart__price {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.qc-cart__qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qc-cart__qty button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.qc-cart__summary {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+}
+
+.qc-cart__subtotal {
+  margin: 0;
+  font-weight: 700;
+}
+
+.qc-cart__remove {
+  border: none;
+  background: transparent;
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.qc-cart__footer {
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.qc-cart__total-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.qc-cart__total-value {
+  margin: 6px 0 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .qc-header {
     grid-template-columns: 1fr;
@@ -264,6 +487,12 @@
 
   .qc-header h1 {
     font-size: 40px;
+  }
+
+  .qc-header__actions {
+    position: static;
+    justify-self: start;
+    margin-bottom: 16px;
   }
 }
 
@@ -278,5 +507,14 @@
 
   .qc-panel {
     width: 100%;
+  }
+
+  .qc-cart__item {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .qc-cart__summary {
+    grid-column: 1 / -1;
+    justify-items: start;
   }
 }
