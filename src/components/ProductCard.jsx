@@ -3,7 +3,7 @@ const priceFormatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 })
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onAddToCart }) => {
   return (
     <article className="qc-card">
       <div className="qc-card__media">
@@ -17,7 +17,11 @@ const ProductCard = ({ product }) => {
           <span className="qc-card__price">
             {priceFormatter.format(product.price)}
           </span>
-          <button type="button" className="qc-button qc-button--small">
+          <button
+            type="button"
+            className="qc-button qc-button--small"
+            onClick={() => onAddToCart(product)}
+          >
             Add to cart
           </button>
         </div>

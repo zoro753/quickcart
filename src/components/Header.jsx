@@ -1,6 +1,19 @@
-const Header = () => {
+const Header = ({ cartItemCount, onCartClick }) => {
   return (
     <header className="qc-header">
+      <div className="qc-header__actions">
+        <button
+          type="button"
+          className="qc-cart-button"
+          onClick={onCartClick}
+          aria-label="Open cart"
+        >
+          <span className="qc-cart-button__label">Cart</span>
+          {cartItemCount > 0 && (
+            <span className="qc-cart-badge">{cartItemCount}</span>
+          )}
+        </button>
+      </div>
       <div className="qc-header__copy">
         <p className="qc-eyebrow">QuickCart</p>
         <h1>Everyday picks, delivered fast.</h1>

@@ -1,6 +1,6 @@
 import ProductCard from './ProductCard'
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, onAddToCart }) => {
   return (
     <section className="qc-collection">
       <div className="qc-collection__header">
@@ -19,7 +19,11 @@ const ProductList = ({ products }) => {
       </div>
       <div className="qc-grid">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+          />
         ))}
       </div>
     </section>
